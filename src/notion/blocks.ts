@@ -115,7 +115,7 @@ export function bulletedListItem(
     type: 'bulleted_list_item',
     bulleted_list_item: {
       text: text,
-      children: children.length ? children : undefined,
+      children: children.length ? children : [],
     },
   } as Block;
 }
@@ -129,7 +129,7 @@ export function numberedListItem(
     type: 'numbered_list_item',
     numbered_list_item: {
       text: text,
-      children: children.length ? children : undefined,
+      children: children.length ? children : [],
     },
   } as Block;
 }
@@ -145,7 +145,7 @@ export function toDo(
     to_do: {
       text: text,
       checked: checked,
-      children: children.length ? children : undefined,
+      children: children.length ? children : [],
     },
   } as Block;
 }
@@ -155,7 +155,7 @@ export function table(children: Block[] = []): Block {
     object: 'unsupported',
     type: 'table',
     table: {
-      children: children.length ? children : undefined,
+      children: children.length ? children : [],
     },
   } as Block;
 }
@@ -165,7 +165,7 @@ export function tableRow(children: Block[] = []): Block {
     object: 'unsupported',
     type: 'table_row',
     table_row: {
-      children: children.length ? children : undefined,
+      children: children.length ? children : [],
     },
   } as Block;
 }
@@ -175,7 +175,7 @@ export function tableCell(children: Block[] = []): Block {
     object: 'unsupported',
     type: 'table_cell',
     table_cell: {
-      children: children.length ? children : undefined,
+      children: children.length ? children : [],
     },
   } as Block;
 }

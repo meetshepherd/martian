@@ -1,6 +1,6 @@
 import * as md from '../markdown';
 import * as notion from '../notion';
-import {URL} from 'url';
+import { URL } from 'url';
 
 function ensureLength(text: string, copy?: object) {
   const chunks = text.match(/[^]{1,2000}/g) || [];
@@ -53,12 +53,11 @@ function parseParagraph(element: md.Paragraph): notion.Block {
   const isImage = element.children[0].type === 'image';
   if (isImage) {
     const image = element.children[0] as md.Image;
-    try {
-      new URL(image.url);
+    if (validURL(image.url)) {
       return notion.image(image.url);
-    } catch (error: any) {
+    } else {
       console.log(
-        `${error.input} is not a valid url, I will process this as text for you to fix later`
+        `${image.url} is not a valid url, I will process this as text for you to fix later`
       );
     }
   }
@@ -206,4 +205,14 @@ export function parseRichText(root: md.Root): notion.RichText[] {
 
   const paragraph = root.children[0];
   return paragraph.children.flatMap(child => parseInline(child));
+}
+
+function validURL(str: string) {
+  var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+    '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+  return !!pattern.test(str);
 }
